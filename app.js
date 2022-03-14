@@ -1,15 +1,4 @@
-// .then.catch yapısı
 
-// const data = fetch("https://restcountries.com/v3.1/name/turkey")
-// fetch("https://restcountries.com/v3.1/name/turkey")
-// .then((response) => response.json())
-// .then((data) => {
-// console.log(data[0].name.common);
-// console.log(data[0].capital);
-// });
-
-// async/await yapısı
-// let globalData = "Henüz boş"
 const getCountry = async (countryName) => {
     const response = await fetch(`https://restcountries.com/v3.1/name/${countryName}`)
     
@@ -17,21 +6,9 @@ const getCountry = async (countryName) => {
 
     const data = await response.json();
     return data[0]
-    // const globalData = data;
-// console.log(data[0].name.common);
-// console.log(data[0].capital);
-// console.log("Inside Async");
-// console.log(globalData);
+
 }
 
-// getCountry("canada");
-// console.log(globalData);
-
-// return sırası satır => 25-17-18-19-20
-
-
-// Code a göre 
-// https://restcountries.com/v3.1/alpha/{code}
 
 const getNeighbour = async (countryCode) => {
     const response = await fetch(`https://restcountries.com/v3.1/alpha/${countryCode}`)
@@ -50,40 +27,24 @@ const viewCountry = async (countryName) => {
     
     const data = await getCountry(countryName)
     renderCountry(data);
-    // const neighbour = await getNeighbour(data.borders[1]);
-    // renderCountry(neighbour,"neighbour")
-    // const neighbour2 = await getNeighbour(data.borders[3]);
-    // renderCountry(neighbour2,"neighbour")
+  
 
 
         if(data.borders){
-//     data.borders.forEach(async(item) => { //            async fonk olduğu için forEach içine de async yazmamız gerekli...
-//         const neighbour = await getNeighbour(item);
-//         renderCountry(neighbour,"neighbour")});
-// }
-
-
-//      await yazmadan da çalışıyor ama literatürde await yazmamızı söylüyor ...
-    for await (const item of data.borders){     //          *************FOR  AWAIT OF KULLANMAK DAHA İYİ*********************
+    for await (const item of data.borders){
         const neighbour = await getNeighbour(item);
         renderCountry(neighbour,"neighbour")};
     }
 
     else{
-        // console.log("komşu yok");
         throw new Error("No Neighbour")
     }
 }catch (error) {
-                                                                //  hata için try catch kullanıyoruz 
-        // console.log(error);
         renderError(error);
     }
 
 }
 
-// viewCountry("australia")
-
-// RENDER İÇİN HOCANIN YOLLADIĞI FONK
 
 const renderError = (msg) => {
     const inputContainer = document.querySelector('.input-section');
@@ -110,17 +71,7 @@ const renderCountry = (data, type = 'country') => {
     const languages = data.languages;
     const currencies = data.currencies;
 
-    /*
-    cons {
-        region,
-        population,
-        capital,
-        languages,
-        currencies,
-        name: { common: countryName},
-        flags: { svg: flag},
-    } = data;                                       // destructuring bu yöntem günümüzde daha çok kullanılıyor ancak üstteki yöntem de aynı 
-    */
+   
   
     const countryHtmlCard = `
       <img src="${flag}" class="card-img-top border border-secondary" alt="Flag" />
